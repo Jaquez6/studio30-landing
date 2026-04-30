@@ -1,0 +1,1666 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#1A1A18">
+  <title>Studio 30 — Content That Converts</title>
+  <meta name="description" content="Influencer marketing, content distribution & performance systems built for brands that want measurable results.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=DM+Sans:wght@200;300;400;500&display=swap" rel="stylesheet">
+
+  <style>
+    /* ============================================
+       VARIABLES & RESET
+    ============================================ */
+    :root {
+      --ink-black:    #1A1A18;
+      --ink-deep:     #111110;
+      --studio-gold:  #B8962E;
+      --gold-light:   #D4B04A;
+      --warm-white:   #FAF9F6;
+      --parchment:    #F5F3EE;
+      --silver:       #8A9099;
+      --charcoal:     #3D3C38;
+      --gold-dim:     rgba(184,150,46,0.15);
+      --font-display: 'Cormorant Garamond', serif;
+      --font-body:    'DM Sans', sans-serif;
+      --ease-out:     cubic-bezier(0.4, 0, 0.2, 1);
+      /* spacing scale */
+      --sp-xs:  12px;
+      --sp-sm:  20px;
+      --sp-md:  32px;
+      --sp-lg:  56px;
+      --sp-xl:  88px;
+      --sp-2xl: 120px;
+    }
+
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html {
+      scroll-behavior: smooth;
+      /* prevent font bump on orientation change (iOS) */
+      -webkit-text-size-adjust: 100%;
+      text-size-adjust: 100%;
+      /* block horizontal overflow at root — required for iOS Safari */
+      overflow-x: hidden;
+      max-width: 100%;
+    }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--ink-black);
+      color: var(--warm-white);
+      overflow-x: hidden;
+      max-width: 100%;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      /* iOS momentum scroll */
+      -webkit-overflow-scrolling: touch;
+    }
+
+    /* safe-area insets — !important so it wins over .container padding shorthand */
+    .safe-pad {
+      padding-left:  max(20px, env(safe-area-inset-left)) !important;
+      padding-right: max(20px, env(safe-area-inset-right)) !important;
+    }
+
+    /* ============================================
+       TYPOGRAPHY  —  mobile-first scale
+    ============================================ */
+    h1 { font-family: var(--font-display); font-weight: 300; letter-spacing: -0.01em;
+         font-size: 3.1rem; line-height: 1.05; }
+
+    h2 { font-family: var(--font-display); font-weight: 300; letter-spacing: -0.01em;
+         font-size: 2.2rem; line-height: 1.1; }
+
+    h3 { font-family: var(--font-display); font-weight: 300;
+         font-size: 1.65rem; line-height: 1.2; }
+
+    p  { font-family: var(--font-body); font-weight: 300;
+         line-height: 1.85; color: var(--silver); font-size: 1.15rem; }
+
+    .label {
+      font-family: var(--font-body); font-size: 0.7rem; font-weight: 500;
+      letter-spacing: 0.22em; text-transform: uppercase; color: var(--studio-gold);
+    }
+
+    .gold { color: var(--studio-gold); }
+
+    /* ── tablet+ ── */
+    @media (min-width: 768px) {
+      h1 { font-size: clamp(3.8rem, 6vw, 7rem); }
+      h2 { font-size: clamp(2.5rem, 4vw, 4.4rem); }
+      h3 { font-size: clamp(1.65rem, 2.2vw, 2.2rem); }
+      p  { font-size: 1.25rem; }
+    }
+
+    /* ============================================
+       LAYOUT
+    ============================================ */
+    .container {
+      width: 100%; max-width: 1200px; margin: 0 auto;
+      padding: 0 20px;
+    }
+    @media (min-width: 768px)  { .container { padding: 0 32px; } }
+    @media (min-width: 1024px) { .container { padding: 0 48px; } }
+
+    section { padding: var(--sp-xl) 0; }
+    @media (min-width: 768px)  { section { padding: var(--sp-2xl) 0; } }
+
+    /* ============================================
+       NAVIGATION
+    ============================================ */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+      width: 100%; max-width: 100%;
+      padding: 16px 20px;
+      /* respect notch on iPhone */
+      padding-left:  max(20px, env(safe-area-inset-left));
+      padding-right: max(20px, env(safe-area-inset-right));
+      display: flex; align-items: center; justify-content: space-between;
+      transition: background 0.4s var(--ease-out);
+      box-sizing: border-box;
+    }
+    @media (min-width: 768px) { nav { padding: 22px 32px; } }
+    @media (min-width: 1024px){ nav { padding: 26px 48px; } }
+
+    nav.scrolled {
+      background: rgba(17,17,16,0.95);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--gold-dim);
+    }
+
+    .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+
+    .logo-mark {
+      width: 36px; height: 36px; flex-shrink: 0;
+      border: 1.5px solid var(--studio-gold);
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--font-display); font-size: 1rem; color: var(--warm-white);
+    }
+    @media (min-width: 768px) { .logo-mark { width: 40px; height: 40px; } }
+
+    .logo-word {
+      font-family: var(--font-body); font-size: 0.84rem; font-weight: 400;
+      letter-spacing: 0.18em; text-transform: uppercase; color: var(--warm-white);
+    }
+    .logo-word span { color: var(--studio-gold); }
+
+    /* Desktop nav links — hidden on mobile */
+    .nav-right { display: none; align-items: center; gap: 32px; }
+    @media (min-width: 900px) {
+      .nav-right { display: flex; }
+    }
+
+    .nav-links { display: flex; align-items: center; gap: 32px; list-style: none; }
+    .nav-links a {
+      font-size: 0.8rem; font-weight: 400; letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--silver); text-decoration: none; transition: color 0.25s;
+      min-height: 44px; display: flex; align-items: center;
+    }
+    .nav-links a:hover { color: var(--warm-white); }
+
+    .nav-cta-btn {
+      background: var(--studio-gold); color: var(--ink-black) !important;
+      padding: 10px 22px;
+      transition: background 0.25s !important;
+    }
+    .nav-cta-btn:hover { background: var(--gold-light) !important; }
+
+    /* Language toggle */
+    .lang-toggle {
+      display: flex; align-items: center;
+      border: 1px solid var(--gold-dim); overflow: hidden;
+    }
+    .lang-btn {
+      background: none; border: none; cursor: pointer;
+      font-family: var(--font-body); font-size: 0.72rem; font-weight: 500;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--silver); padding: 8px 12px;
+      min-height: 36px;
+      transition: background 0.25s, color 0.25s;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .lang-btn.active { background: var(--studio-gold); color: var(--ink-black); }
+    .lang-btn:not(.active):hover { color: var(--warm-white); }
+
+    /* Mobile nav header row (lang + hamburger) */
+    .nav-mobile-row { display: flex; align-items: center; gap: 12px; }
+    @media (min-width: 900px) { .nav-mobile-row { display: none; } }
+
+    /* Mobile lang toggle in header */
+    .nav-mobile-lang { display: flex; align-items: center; border: 1px solid var(--gold-dim); overflow: hidden; }
+    .nav-mobile-lang .lang-btn { font-size: 0.6rem; padding: 7px 10px; min-height: 32px; }
+
+    /* Hamburger */
+    .hamburger {
+      display: flex; flex-direction: column; gap: 5px;
+      cursor: pointer; padding: 8px;
+      min-width: 44px; min-height: 44px;
+      align-items: center; justify-content: center;
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
+    }
+    .hamburger span {
+      display: block; width: 22px; height: 1.5px;
+      background: var(--warm-white); transition: all 0.3s;
+    }
+    .hamburger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+    .hamburger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+    /* Mobile full-screen menu */
+    .mobile-nav {
+      position: fixed; inset: 0; z-index: 190;
+      background: var(--ink-deep);
+      display: flex; flex-direction: column;
+      justify-content: center; align-items: flex-start;
+      padding: 48px 28px 48px max(28px, env(safe-area-inset-left));
+      gap: 4px;
+      transform: translateX(100%);
+      transition: transform 0.38s var(--ease-out);
+    }
+    .mobile-nav.open { transform: translateX(0); }
+
+    .mobile-nav a {
+      font-family: var(--font-display);
+      font-size: clamp(2.6rem, 9vw, 4.2rem); font-weight: 300;
+      color: var(--warm-white); text-decoration: none;
+      transition: color 0.25s; padding: 10px 0;
+      min-height: 56px; display: flex; align-items: center;
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
+    }
+    .mobile-nav a:active { color: var(--studio-gold); }
+
+    .mobile-nav-cta {
+      margin-top: 32px !important;
+      background: var(--studio-gold) !important;
+      color: var(--ink-black) !important;
+      font-family: var(--font-body) !important;
+      font-size: 0.82rem !important; font-weight: 500 !important;
+      letter-spacing: 0.15em; text-transform: uppercase;
+      padding: 16px 32px !important;
+      min-height: 52px !important;
+    }
+    .mobile-nav-bottom {
+      margin-top: 40px; padding-top: 32px;
+      border-top: 1px solid var(--gold-dim);
+      width: 100%;
+    }
+    .mobile-nav-lang { display: flex; align-items: center; border: 1px solid var(--gold-dim); overflow: hidden; width: fit-content; }
+    .mobile-nav-lang .lang-btn { font-size: 0.7rem; padding: 10px 18px; min-height: 40px; }
+
+    /* ============================================
+       BUTTONS  —  touch-optimized
+    ============================================ */
+    .btn-gold {
+      display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+      background: var(--studio-gold); color: var(--ink-black);
+      font-family: var(--font-body); font-size: 0.82rem; font-weight: 500;
+      letter-spacing: 0.16em; text-transform: uppercase;
+      padding: 18px 32px; text-decoration: none; cursor: pointer; border: none;
+      min-height: 54px; width: 100%; max-width: 280px;
+      transition: background 0.3s, transform 0.3s, box-shadow 0.3s;
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;   /* remove 300ms tap delay on iOS */
+    }
+    .btn-gold::after { content: '→'; transition: transform 0.3s; }
+    .btn-gold:active { background: var(--gold-light); transform: scale(0.98); }
+    @media (min-width: 768px) {
+      .btn-gold { width: auto; padding: 17px 38px; }
+      .btn-gold:hover { background: var(--gold-light); transform: translateY(-2px); box-shadow: 0 16px 48px rgba(184,150,46,0.28); }
+      .btn-gold:hover::after { transform: translateX(5px); }
+    }
+
+    .btn-outline {
+      display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+      color: var(--warm-white);
+      font-family: var(--font-body); font-size: 0.82rem; font-weight: 400;
+      letter-spacing: 0.16em; text-transform: uppercase;
+      padding: 18px 0; text-decoration: none; cursor: pointer; border: none; background: none;
+      border-bottom: 1px solid rgba(250,249,246,0.25);
+      min-height: 54px; width: 100%; max-width: 280px;
+      transition: color 0.3s, border-color 0.3s;
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
+    }
+    .btn-outline:active { color: var(--studio-gold); }
+    @media (min-width: 768px) {
+      .btn-outline { width: auto; }
+      .btn-outline:hover { color: var(--studio-gold); border-color: var(--studio-gold); }
+    }
+
+    .btn-dark {
+      display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+      background: var(--ink-black); color: var(--warm-white);
+      font-family: var(--font-body); font-size: 0.82rem; font-weight: 500;
+      letter-spacing: 0.16em; text-transform: uppercase;
+      padding: 18px 32px; text-decoration: none; cursor: pointer; border: none;
+      min-height: 54px;
+      transition: background 0.3s, transform 0.3s;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .btn-dark::after { content: '→'; transition: transform 0.3s; }
+    .btn-dark:active { background: var(--charcoal); }
+    @media (min-width: 768px) {
+      .btn-dark:hover { background: var(--charcoal); transform: translateY(-2px); }
+    }
+
+    /* ============================================
+       HERO  —  mobile-first
+    ============================================ */
+    #hero {
+      min-height: 100vh;           /* fallback for older mobile browsers */
+      min-height: 100svh;          /* small viewport height — best for mobile */
+      display: flex; align-items: center;
+      padding: 0; position: relative; overflow: hidden; background: var(--ink-black);
+    }
+
+    .hero-grid-bg {
+      position: absolute; inset: 0; pointer-events: none;
+      background-image:
+        linear-gradient(rgba(184,150,46,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(184,150,46,0.04) 1px, transparent 1px);
+      background-size: 60px 60px;
+    }
+    @media (min-width: 768px) {
+      .hero-grid-bg { background-size: 80px 80px; }
+    }
+
+    .hero-glow-1 {
+      position: absolute; width: 320px; height: 320px;
+      border-radius: 50%; pointer-events: none;
+      background: radial-gradient(circle, rgba(184,150,46,0.1) 0%, transparent 65%);
+      top: -60px; right: -60px;
+      /* contain within hero so it can't scroll-leak */
+      max-width: 80vw; max-height: 80vw;
+    }
+    @media (min-width: 768px) {
+      .hero-glow-1 { width: 700px; height: 700px; max-width: none; max-height: none; top: -150px; right: -150px; }
+    }
+
+    .hero-glow-2 {
+      position: absolute; width: 200px; height: 200px;
+      border-radius: 50%; pointer-events: none;
+      background: radial-gradient(circle, rgba(184,150,46,0.06) 0%, transparent 70%);
+      bottom: 40px; left: -40px;
+      max-width: 60vw; max-height: 60vw;
+    }
+
+    .hero-content {
+      position: relative; z-index: 2;
+      padding-top: 90px; padding-bottom: 60px;
+    }
+    @media (min-width: 768px) { .hero-content { padding-top: 110px; padding-bottom: 80px; } }
+
+    .hero-eyebrow {
+      display: flex; align-items: center; gap: 14px; margin-bottom: 28px;
+    }
+    .hero-eyebrow::before {
+      content: ''; display: block; width: 32px; height: 1px; background: var(--studio-gold); flex-shrink: 0;
+    }
+    @media (min-width: 768px) {
+      .hero-eyebrow { gap: 18px; margin-bottom: 36px; }
+      .hero-eyebrow::before { width: 44px; }
+    }
+
+    .hero-h1 { margin-bottom: 24px; }
+    @media (min-width: 768px) { .hero-h1 { max-width: 960px; margin-bottom: 36px; } }
+    .hero-h1 em { font-style: italic; color: var(--studio-gold); }
+
+    .hero-sub {
+      font-size: 1.15rem; font-weight: 300; color: var(--silver); line-height: 1.85;
+      margin-bottom: 40px;
+    }
+    @media (min-width: 768px) { .hero-sub { max-width: 560px; margin-bottom: 56px; font-size: 1.28rem; } }
+
+    .hero-actions {
+      display: flex; flex-direction: column; align-items: stretch;
+      gap: 16px;
+    }
+    @media (min-width: 480px) {
+      .hero-actions { flex-direction: row; align-items: center; flex-wrap: wrap; gap: 20px; }
+      .btn-gold, .btn-outline { width: auto; max-width: none; }
+    }
+
+    /* scroll cue — hide on small mobile, show on larger */
+    .hero-scroll-cue {
+      display: none;
+      position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%);
+      flex-direction: column; align-items: center; gap: 10px;
+    }
+    @media (min-width: 768px) and (min-height: 700px) { .hero-scroll-cue { display: flex; } }
+
+    .scroll-line {
+      width: 1px; height: 56px;
+      background: linear-gradient(to bottom, var(--studio-gold), transparent);
+      animation: scrollPulse 2.2s ease-in-out infinite;
+    }
+    @keyframes scrollPulse {
+      0%,100% { opacity: 0.35; transform: scaleY(1); }
+      50%      { opacity: 1;    transform: scaleY(1.1); }
+    }
+
+    /* ============================================
+       STATS BAND  —  2 cols on mobile, 4 on desktop
+    ============================================ */
+    #stats {
+      padding: 0;
+      background: var(--ink-deep);
+      border-top: 1px solid var(--gold-dim);
+      border-bottom: 1px solid var(--gold-dim);
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* background glow in the middle */
+    #stats::before {
+      content: '';
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 70%; height: 200%;
+      background: radial-gradient(ellipse, rgba(184,150,46,0.07) 0%, transparent 60%);
+      pointer-events: none;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      position: relative; z-index: 1;
+    }
+
+    .stat-cell {
+      padding: 48px 24px 40px;
+      border-right: 1px solid var(--gold-dim);
+      border-bottom: 1px solid var(--gold-dim);
+      position: relative;
+      overflow: hidden;
+      transition: background 0.4s;
+    }
+    /* gold top-bar accent */
+    .stat-cell::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--studio-gold), transparent);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.5s cubic-bezier(0.4,0,0.2,1);
+    }
+    .stat-cell.vis::before { transform: scaleX(1); }
+
+    .stat-cell:nth-child(2)  { border-right: none; }
+    .stat-cell:nth-child(3)  { border-bottom: none; }
+    .stat-cell:nth-child(4)  { border-right: none; border-bottom: none; }
+
+    @media (hover: hover) {
+      .stat-cell:hover { background: rgba(184,150,46,0.04); }
+    }
+
+    @media (min-width: 768px) {
+      .stats-grid { grid-template-columns: repeat(4, 1fr); }
+      .stat-cell { padding: 64px 40px 56px; border-bottom: none; }
+      .stat-cell:nth-child(2) { border-right: 1px solid var(--gold-dim); }
+      .stat-cell:nth-child(3) { border-bottom: none; }
+      .stat-cell:nth-child(4) { border-right: none; }
+    }
+    @media (min-width: 1024px) { .stat-cell { padding: 80px 52px 68px; } }
+
+    .stat-index {
+      font-family: var(--font-body); font-size: 0.6rem; font-weight: 500;
+      letter-spacing: 0.28em; text-transform: uppercase; color: var(--studio-gold);
+      margin-bottom: 20px; opacity: 0.7;
+    }
+
+    .stat-num {
+      font-family: var(--font-display);
+      font-size: clamp(3rem, 9vw, 5.5rem);
+      font-weight: 300; color: var(--warm-white); line-height: 1; margin-bottom: 18px;
+    }
+    .stat-num span { color: var(--studio-gold); }
+
+    /* divider line below number */
+    .stat-divider {
+      width: 32px; height: 1px;
+      background: var(--studio-gold);
+      margin-bottom: 18px;
+      opacity: 0.5;
+    }
+
+    .stat-desc {
+      font-size: 1rem; font-weight: 300; color: var(--silver); line-height: 1.65;
+    }
+
+    /* ============================================
+       SERVICES  —  1 col mobile, 3 col desktop
+    ============================================ */
+    #services { background: var(--warm-white); }
+    #services .section-header { margin-bottom: 48px; }
+    #services .section-header h2 { color: var(--ink-black); margin-top: 16px; }
+    @media (min-width: 768px) { #services .section-header { margin-bottom: 72px; } }
+
+    .services-grid {
+      display: grid; grid-template-columns: 1fr; gap: 3px;
+    }
+    @media (min-width: 900px) { .services-grid { grid-template-columns: repeat(3, 1fr); } }
+
+    .svc-card {
+      background: var(--parchment);
+      padding: 40px 28px;
+      position: relative; overflow: hidden;
+      border-left: 3px solid transparent;
+      transition: border-color 0.4s;
+    }
+    @media (min-width: 768px) { .svc-card { padding: 56px 44px; } }
+
+    .svc-card::after {
+      content: ''; position: absolute; inset: 0; background: var(--ink-black);
+      transform: translateY(101%); transition: transform 0.45s var(--ease-out);
+    }
+    @media (hover: hover) {
+      .svc-card:hover { border-left-color: var(--studio-gold); }
+      .svc-card:hover::after { transform: translateY(0); }
+      .svc-card:hover .svc-title { color: var(--warm-white); }
+      .svc-card:hover .svc-desc  { color: rgba(250,249,246,0.65); }
+      .svc-card:hover .svc-list li { color: rgba(250,249,246,0.5); border-color: rgba(255,255,255,0.07); }
+    }
+
+    .svc-inner { position: relative; z-index: 2; }
+    .svc-num { font-family: var(--font-display); font-size: 3.1rem; font-weight: 300; color: var(--studio-gold); line-height: 1; margin-bottom: 20px; }
+    .svc-title { font-family: var(--font-display); font-size: 1.75rem; font-weight: 300; color: var(--ink-black); margin-bottom: 16px; transition: color 0.35s; }
+    .svc-desc  { font-size: 1.1rem; color: var(--charcoal); line-height: 1.78; margin-bottom: 24px; transition: color 0.35s; }
+    .svc-list  { list-style: none; }
+    .svc-list li {
+      font-size: 1rem; font-weight: 300; color: var(--silver);
+      padding: 9px 0; border-bottom: 1px solid rgba(0,0,0,0.07);
+      display: flex; align-items: center; gap: 10px;
+      transition: color 0.35s, border-color 0.35s;
+    }
+    .svc-list li::before { content: '—'; color: var(--studio-gold); font-size: 0.65rem; flex-shrink: 0; }
+
+    /* ============================================
+       PROCESS  —  1 col mobile, 3 col desktop
+    ============================================ */
+    #process { background: var(--ink-black); }
+    #process .section-header { margin-bottom: 48px; }
+    #process .section-header h2 { margin-top: 16px; }
+    @media (min-width: 768px) { #process .section-header { margin-bottom: 72px; } }
+
+    .process-grid {
+      display: grid; grid-template-columns: 1fr;
+      gap: 1px; background: var(--gold-dim);
+    }
+    @media (min-width: 900px) { .process-grid { grid-template-columns: repeat(3, 1fr); } }
+
+    .proc-step {
+      background: var(--ink-black); padding: 48px 28px;
+    }
+    @media (min-width: 768px) { .proc-step { padding: 64px 48px; } }
+    @media (hover: hover) { .proc-step:hover { background: #1f1f1d; } }
+    @media (hover: hover) { .proc-step:hover .proc-big-num { color: rgba(184,150,46,0.35); } }
+
+    .proc-big-num {
+      font-family: var(--font-display); font-size: 5rem; font-weight: 300;
+      color: rgba(184,150,46,0.18); line-height: 1; margin-bottom: 28px;
+      transition: color 0.35s;
+    }
+    @media (min-width: 768px) { .proc-big-num { font-size: 6rem; } }
+
+    .proc-tag   { font-size: 0.72rem; font-weight: 500; letter-spacing: 0.22em; text-transform: uppercase; color: var(--studio-gold); margin-bottom: 12px; }
+    .proc-title { font-family: var(--font-display); font-size: 2.1rem; font-weight: 300; color: var(--warm-white); margin-bottom: 16px; }
+    .proc-step p { font-size: 1.1rem; line-height: 1.85; }
+
+    /* ============================================
+       DIFFERENTIATOR
+    ============================================ */
+    #diff { background: var(--studio-gold); padding: var(--sp-xl) 0; }
+    @media (min-width: 768px) { #diff { padding: var(--sp-2xl) 0; } }
+
+    .diff-grid {
+      display: grid; grid-template-columns: 1fr;
+      gap: 40px;
+    }
+    @media (min-width: 900px) { .diff-grid { grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; } }
+
+    .diff-left h2 { color: var(--ink-black); }
+    .diff-left h2 em { display: block; font-style: italic; }
+    .diff-right p  { color: rgba(26,26,24,0.72); font-size: 1.15rem; margin-bottom: 24px; }
+
+    /* ============================================
+       ABOUT
+    ============================================ */
+    #about { background: var(--ink-deep); }
+
+    .about-grid {
+      display: grid; grid-template-columns: 1fr;
+      gap: 56px;
+    }
+    @media (min-width: 1024px) { .about-grid { grid-template-columns: 1fr 1fr; gap: 96px; align-items: start; } }
+
+    .about-left h2 { margin-top: 16px; margin-bottom: 24px; }
+    .about-left p  { font-size: 1.15rem; margin-bottom: 20px; }
+
+    .about-quote {
+      margin-top: 40px; padding: 28px 24px;
+      border-left: 3px solid var(--studio-gold);
+      background: rgba(184,150,46,0.06);
+    }
+    @media (min-width: 768px) { .about-quote { padding: 32px 36px; } }
+    .about-quote p { font-family: var(--font-display); font-style: italic; font-size: 1.35rem; font-weight: 300; color: var(--warm-white); line-height: 1.65; }
+
+    .eco-list { margin-top: 0; }
+    .eco-item {
+      padding: 28px 0; border-bottom: 1px solid var(--gold-dim);
+      display: grid; grid-template-columns: 52px 1fr; gap: 24px; align-items: start;
+    }
+    .eco-item:first-child { border-top: 1px solid var(--gold-dim); }
+    @media (min-width: 768px) { .eco-item { padding: 36px 0; grid-template-columns: 56px 1fr; gap: 32px; } }
+
+    .eco-num   { font-family: var(--font-display); font-size: 1.9rem; font-weight: 300; color: var(--studio-gold); padding-top: 3px; }
+    .eco-title { font-family: var(--font-body); font-size: 0.82rem; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: var(--warm-white); margin-bottom: 10px; }
+    .eco-desc  { font-size: 1.05rem; color: var(--silver); line-height: 1.78; }
+
+    /* ============================================
+       WORK MODELS
+    ============================================ */
+    #models { background: var(--warm-white); }
+    #models .section-header { margin-bottom: 48px; }
+    #models .section-header h2 { color: var(--ink-black); margin-top: 16px; }
+    @media (min-width: 768px) { #models .section-header { margin-bottom: 72px; } }
+
+    .models-grid {
+      display: grid; grid-template-columns: 1fr; gap: 3px;
+    }
+    @media (min-width: 768px) { .models-grid { grid-template-columns: repeat(2, 1fr); } }
+
+    .model-card { background: var(--parchment); padding: 40px 28px; transition: background 0.35s; }
+    @media (min-width: 768px) { .model-card { padding: 56px 48px; } }
+    @media (hover: hover) {
+      .model-card:hover { background: var(--ink-black); }
+      .model-card:hover .model-name { color: var(--warm-white); }
+      .model-card:hover .model-sub  { color: var(--studio-gold); }
+      .model-card:hover .model-desc { color: var(--silver); }
+    }
+
+    .model-name { font-family: var(--font-display); font-size: 1.9rem; font-weight: 300; color: var(--ink-black); margin-bottom: 8px; transition: color 0.35s; }
+    .model-sub  { display: block; font-size: 0.78rem; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; color: var(--studio-gold); margin-bottom: 20px; }
+    .model-desc { font-size: 1.1rem; color: var(--charcoal); line-height: 1.82; transition: color 0.35s; }
+
+    /* ============================================
+       FINAL CTA
+    ============================================ */
+    #cta {
+      background: var(--ink-black); padding: var(--sp-xl) 0;
+      text-align: center; position: relative; overflow: hidden;
+    }
+    @media (min-width: 768px) { #cta { padding: 160px 0; } }
+
+    .cta-radial {
+      position: absolute; width: min(600px, 100vw); height: min(600px, 100vw);
+      border-radius: 50%; pointer-events: none;
+      background: radial-gradient(circle, rgba(184,150,46,0.09) 0%, transparent 60%);
+      top: 50%; left: 50%; transform: translate(-50%, -50%);
+    }
+    @media (min-width: 768px) { .cta-radial { width: 900px; height: 900px; } }
+
+    .cta-inner { position: relative; z-index: 2; }
+
+    #cta .label { display: block; margin-bottom: 28px; }
+    @media (min-width: 768px) { #cta .label { margin-bottom: 36px; } }
+
+    #cta h2 { margin: 0 auto 20px; }
+    #cta h2 em { font-style: italic; color: var(--studio-gold); }
+
+    .cta-subp { max-width: 560px; margin: 0 auto 48px; font-size: 1.15rem; }
+    @media (min-width: 768px) { .cta-subp { margin-bottom: 64px; } }
+
+    .cta-btns {
+      display: flex; flex-direction: column; align-items: center;
+      gap: 16px;
+    }
+    @media (min-width: 480px) {
+      .cta-btns { flex-direction: row; justify-content: center; flex-wrap: wrap; gap: 24px; }
+      .cta-btns .btn-gold, .cta-btns .btn-outline { width: auto; max-width: none; }
+    }
+
+    .cta-contacts {
+      margin-top: 64px; padding-top: 40px;
+      border-top: 1px solid var(--gold-dim);
+      display: flex; flex-direction: column;
+      align-items: flex-start; gap: 20px;
+      text-align: left;
+    }
+    @media (min-width: 600px) {
+      .cta-contacts { flex-direction: row; flex-wrap: wrap; justify-content: center; align-items: center; gap: 32px; }
+    }
+    @media (min-width: 768px) { .cta-contacts { gap: 48px; margin-top: 80px; } }
+
+    .cnt-link {
+      display: flex; align-items: center; gap: 12px; text-decoration: none;
+      min-height: 44px;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .cnt-dot { width: 5px; height: 5px; background: var(--studio-gold); border-radius: 50%; flex-shrink: 0; }
+    .cnt-text { font-size: 0.88rem; font-weight: 300; color: var(--silver); letter-spacing: 0.04em; transition: color 0.25s; }
+    .cnt-link:active .cnt-text, .cnt-link:hover .cnt-text { color: var(--warm-white); }
+
+    /* ============================================
+       FOOTER
+    ============================================ */
+    footer {
+      background: var(--ink-deep); padding: 36px 0;
+      border-top: 1px solid var(--gold-dim);
+      padding-bottom: max(36px, env(safe-area-inset-bottom));
+    }
+    @media (min-width: 768px) { footer { padding: 52px 0; } }
+
+    .footer-row {
+      display: flex; flex-direction: column; gap: 12px;
+    }
+    @media (min-width: 600px) {
+      .footer-row { flex-direction: row; align-items: center; justify-content: space-between; }
+    }
+
+    .footer-copy  { font-size: 0.78rem; font-weight: 300; color: var(--silver); }
+    .footer-claim { font-family: var(--font-display); font-size: 1rem; font-weight: 300; color: var(--silver); }
+    .footer-claim span { color: var(--studio-gold); }
+
+    /* ============================================
+       PLACEHOLDERS — visual content zones
+    ============================================ */
+
+    /* ── 1. Video Reel ── */
+    .ph-reel {
+      position: relative;
+      width: 100%;
+      height: 420px;
+      background: var(--ink-deep);
+      overflow: hidden;
+      display: flex; align-items: center; justify-content: center;
+    }
+    @media (min-width: 768px) { .ph-reel { height: 560px; } }
+    @media (min-width: 1024px){ .ph-reel { height: 680px; } }
+
+    /* grain overlay */
+    .ph-reel::before {
+      content: '';
+      position: absolute; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      background-size: 200px;
+      pointer-events: none; z-index: 0;
+    }
+    /* subtle gradient vignette */
+    .ph-reel::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse at center, transparent 40%, rgba(17,17,16,0.7) 100%);
+      pointer-events: none; z-index: 1;
+    }
+    /* dashed gold frame */
+    .ph-reel-frame {
+      position: absolute; inset: 20px;
+      border: 1px dashed rgba(184,150,46,0.3);
+      pointer-events: none; z-index: 2;
+    }
+    .ph-reel-content {
+      position: relative; z-index: 3;
+      display: flex; flex-direction: column; align-items: center; gap: 20px;
+      text-align: center;
+    }
+    .ph-reel-play {
+      width: 72px; height: 72px;
+      border: 1.5px solid var(--studio-gold);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0.7;
+    }
+    @media (min-width: 768px) { .ph-reel-play { width: 88px; height: 88px; } }
+    .ph-reel-play svg { margin-left: 4px; }
+    .ph-label-tag {
+      font-family: var(--font-body); font-size: 0.62rem; font-weight: 500;
+      letter-spacing: 0.28em; text-transform: uppercase;
+      color: var(--studio-gold); opacity: 0.8;
+    }
+    .ph-reel-title {
+      font-family: var(--font-display); font-size: clamp(1.6rem, 3vw, 2.8rem);
+      font-weight: 300; color: var(--warm-white); opacity: 0.35;
+      max-width: 500px; line-height: 1.2;
+    }
+    .ph-dev-note {
+      font-family: var(--font-body); font-size: 0.68rem; font-weight: 300;
+      color: var(--silver); opacity: 0.45; letter-spacing: 0.06em;
+      margin-top: 8px;
+    }
+
+    /* ── 2. Logos Band ── */
+    .ph-logos {
+      padding: 48px 0;
+      background: var(--parchment);
+      border-top: 1px solid rgba(26,26,24,0.08);
+      border-bottom: 1px solid rgba(26,26,24,0.08);
+      overflow: hidden;
+    }
+    @media (min-width: 768px) { .ph-logos { padding: 60px 0; } }
+
+    .ph-logos-label {
+      font-family: var(--font-body); font-size: 0.6rem; font-weight: 500;
+      letter-spacing: 0.28em; text-transform: uppercase; color: var(--charcoal);
+      opacity: 0.45; text-align: center; margin-bottom: 36px;
+    }
+    .ph-logos-row {
+      display: flex; align-items: center; justify-content: center;
+      gap: 40px; flex-wrap: wrap; padding: 0 24px;
+    }
+    @media (min-width: 768px) { .ph-logos-row { gap: 64px; flex-wrap: nowrap; } }
+
+    .ph-logo-slot {
+      height: 28px; width: 100px;
+      border-bottom: 1px solid rgba(26,26,24,0.15);
+      opacity: 0.35; flex-shrink: 0;
+      position: relative;
+    }
+    .ph-logo-slot::after {
+      content: 'LOGO';
+      position: absolute; top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      font-family: var(--font-body); font-size: 0.55rem;
+      letter-spacing: 0.22em; color: var(--charcoal); opacity: 0.5;
+    }
+
+    /* ── 3. Case Studies / Results ── */
+    .ph-cases {
+      background: var(--ink-black);
+      padding: var(--sp-xl) 0;
+    }
+    @media (min-width: 768px) { .ph-cases { padding: var(--sp-2xl) 0; } }
+
+    .ph-cases-header { margin-bottom: 48px; }
+    @media (min-width: 768px) { .ph-cases-header { margin-bottom: 64px; } }
+    .ph-cases-header h2 { margin-top: 16px; }
+
+    .ph-cases-grid {
+      display: grid; grid-template-columns: 1fr;
+      gap: 3px;
+    }
+    @media (min-width: 768px) { .ph-cases-grid { grid-template-columns: repeat(3, 1fr); } }
+
+    .ph-case-card {
+      position: relative; overflow: hidden;
+      height: 380px;
+      background: var(--charcoal);
+      display: flex; flex-direction: column; justify-content: flex-end;
+    }
+    @media (min-width: 768px) { .ph-case-card { height: 440px; } }
+
+    .ph-case-img {
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg, #2a2a28 0%, #1a1a18 100%);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .ph-case-img-inner {
+      border: 1px dashed rgba(184,150,46,0.3);
+      padding: 16px 24px;
+      display: flex; flex-direction: column; align-items: center; gap: 10px;
+    }
+    .ph-case-img-note {
+      font-family: var(--font-body); font-size: 0.58rem;
+      letter-spacing: 0.22em; text-transform: uppercase;
+      color: var(--studio-gold); opacity: 0.5;
+    }
+
+    .ph-case-overlay {
+      position: relative; z-index: 2;
+      padding: 28px;
+      background: linear-gradient(to top, rgba(17,17,16,0.98) 0%, transparent 100%);
+    }
+    .ph-case-tag {
+      font-family: var(--font-body); font-size: 0.6rem; font-weight: 500;
+      letter-spacing: 0.22em; text-transform: uppercase;
+      color: var(--studio-gold); margin-bottom: 10px; opacity: 0.8;
+    }
+    .ph-case-stat {
+      font-family: var(--font-display); font-size: 2.6rem; font-weight: 300;
+      color: var(--warm-white); line-height: 1;
+    }
+    .ph-case-desc {
+      font-size: 0.82rem; color: var(--silver); margin-top: 6px;
+    }
+
+    /* ── 4. Testimonials ── */
+    .ph-testimonials {
+      background: var(--warm-white);
+      padding: var(--sp-xl) 0;
+    }
+    @media (min-width: 768px) { .ph-testimonials { padding: var(--sp-2xl) 0; } }
+
+    .ph-test-header { margin-bottom: 56px; }
+    .ph-test-header .label { color: var(--studio-gold); }
+    .ph-test-header h2 { color: var(--ink-black); margin-top: 16px; }
+
+    .ph-test-grid {
+      display: grid; grid-template-columns: 1fr;
+      gap: 3px;
+    }
+    @media (min-width: 768px) { .ph-test-grid { grid-template-columns: repeat(3, 1fr); } }
+
+    .ph-test-card {
+      background: var(--parchment);
+      padding: 40px 32px;
+      border-left: 3px solid transparent;
+      transition: border-color 0.3s;
+    }
+    @media (min-width: 768px) { .ph-test-card { padding: 52px 44px; } }
+    @media (hover: hover) { .ph-test-card:hover { border-left-color: var(--studio-gold); } }
+
+    .ph-quote-mark {
+      font-family: var(--font-display); font-size: 4rem; line-height: 0.8;
+      color: var(--studio-gold); opacity: 0.3; margin-bottom: 20px;
+    }
+    .ph-quote-text {
+      font-family: var(--font-display); font-style: italic;
+      font-size: 1.15rem; font-weight: 300; color: var(--ink-black);
+      line-height: 1.65; margin-bottom: 28px; opacity: 0.25;
+    }
+    .ph-test-person {
+      display: flex; align-items: center; gap: 14px;
+    }
+    .ph-avatar {
+      width: 44px; height: 44px; border-radius: 50%;
+      background: linear-gradient(135deg, rgba(184,150,46,0.2), rgba(184,150,46,0.05));
+      border: 1px dashed rgba(184,150,46,0.4);
+      flex-shrink: 0; display: flex; align-items: center; justify-content: center;
+    }
+    .ph-avatar-note {
+      font-size: 0.5rem; letter-spacing: 0.15em;
+      color: var(--studio-gold); opacity: 0.5; text-align: center; line-height: 1.3;
+    }
+    .ph-person-info-name {
+      font-family: var(--font-body); font-size: 0.75rem; font-weight: 500;
+      color: var(--ink-black); opacity: 0.25; letter-spacing: 0.06em;
+    }
+    .ph-person-info-role {
+      font-size: 0.68rem; color: var(--silver); opacity: 0.4;
+    }
+
+    /* ============================================
+       ICONS
+    ============================================ */
+    .stat-icon {
+      color: var(--studio-gold); opacity: 0.9;
+      margin-bottom: 22px; display: block;
+      filter: drop-shadow(0 0 8px rgba(184,150,46,0.25));
+    }
+    .svc-icon  {
+      color: var(--studio-gold);
+      margin-bottom: 28px; display: block;
+      filter: drop-shadow(0 0 10px rgba(184,150,46,0.2));
+    }
+    .proc-icon {
+      color: var(--studio-gold); opacity: 0.85;
+      margin-bottom: 24px; display: block;
+      filter: drop-shadow(0 0 8px rgba(184,150,46,0.2));
+    }
+    .eco-icon  {
+      color: var(--studio-gold); opacity: 0.9; flex-shrink: 0;
+      filter: drop-shadow(0 0 6px rgba(184,150,46,0.2));
+    }
+
+    /* ============================================
+       SCROLL ANIMATIONS  —  reduced on mobile
+    ============================================ */
+    .fade-up {
+      opacity: 0; transform: translateY(24px);
+      transition: opacity 0.7s var(--ease-out), transform 0.7s var(--ease-out);
+    }
+    @media (min-width: 768px) { .fade-up { transform: translateY(36px); transition-duration: 0.85s; } }
+    .fade-up.vis { opacity: 1; transform: translateY(0); }
+    .d1 { transition-delay: 0.08s; } .d2 { transition-delay: 0.16s; }
+    .d3 { transition-delay: 0.24s; } .d4 { transition-delay: 0.32s; }
+    /* on mobile, kill stagger delays to feel snappier */
+    @media (max-width: 767px) {
+      .d1, .d2, .d3, .d4 { transition-delay: 0s; }
+    }
+
+    /* disable hover card flip on touch devices */
+    @media (hover: none) {
+      .svc-card::after { display: none; }
+    }
+
+    /* iOS Safari: body scroll lock when menu open */
+    body.menu-open {
+      position: fixed;
+      width: 100%;
+      overflow: hidden;
+    }
+
+    /* Ensure every section and container can't bleed out */
+    section, .container, footer {
+      max-width: 100%;
+      box-sizing: border-box;
+    }
+
+    /* Extra safety for very small screens (< 360px) */
+    @media (max-width: 359px) {
+      h1 { font-size: 2.5rem; }
+      h2 { font-size: 1.9rem; }
+      .hero-content { padding-top: 80px; padding-bottom: 40px; }
+      .stat-num { font-size: 2rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ==========================================
+       NAV
+  =========================================== -->
+  <nav id="navbar">
+    <a href="#hero" class="nav-logo">
+      <div class="logo-mark">30</div>
+      <span class="logo-word">STUDIO <span>30</span></span>
+    </a>
+
+    <!-- Desktop links -->
+    <div class="nav-right">
+      <ul class="nav-links">
+        <li><a href="#services" data-i18n="nav.services">Services</a></li>
+        <li><a href="#process"  data-i18n="nav.process">How We Work</a></li>
+        <li><a href="#about"    data-i18n="nav.about">About</a></li>
+        <li><a href="#cta" class="nav-cta-btn" data-i18n="nav.cta">Work With Us</a></li>
+      </ul>
+      <div class="lang-toggle">
+        <button class="lang-btn active" id="btn-en" onclick="setLang('en')">EN</button>
+        <button class="lang-btn"        id="btn-es" onclick="setLang('es')">ES</button>
+      </div>
+    </div>
+
+    <!-- Mobile: lang + hamburger -->
+    <div class="nav-mobile-row">
+      <div class="nav-mobile-lang">
+        <button class="lang-btn active" id="mob-top-en" onclick="setLang('en')">EN</button>
+        <button class="lang-btn"        id="mob-top-es" onclick="setLang('es')">ES</button>
+      </div>
+      <div class="hamburger" id="hamburger" role="button" aria-label="Menu" tabindex="0">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Mobile full-screen menu -->
+  <div class="mobile-nav" id="mobileNav">
+    <a href="#services" onclick="closeMenu()" data-i18n="nav.services">Services</a>
+    <a href="#process"  onclick="closeMenu()" data-i18n="nav.process">How We Work</a>
+    <a href="#about"    onclick="closeMenu()" data-i18n="nav.about">About</a>
+    <a href="#cta"      onclick="closeMenu()" class="mobile-nav-cta" data-i18n="nav.cta">Work With Us</a>
+    <div class="mobile-nav-bottom">
+      <div class="mobile-nav-lang">
+        <button class="lang-btn active" id="mob-menu-en" onclick="setLang('en')">EN</button>
+        <button class="lang-btn"        id="mob-menu-es" onclick="setLang('es')">ES</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================
+       HERO
+  =========================================== -->
+  <section id="hero">
+    <div class="hero-grid-bg"></div>
+    <div class="hero-glow-1"></div>
+    <div class="hero-glow-2"></div>
+
+    <div class="container hero-content safe-pad">
+      <div class="hero-eyebrow fade-up">
+        <span class="label" data-i18n="hero.eyebrow">Studio 30 · Lima, Perú</span>
+      </div>
+      <h1 class="hero-h1 fade-up d1">
+        <span data-i18n="hero.h1a">We turn</span><br>
+        <em data-i18n="hero.h1b">attention</em><br>
+        <span data-i18n="hero.h1c">into revenue.</span>
+      </h1>
+      <p class="hero-sub fade-up d2" data-i18n="hero.sub">
+        Influencer campaigns, content distribution &amp; performance systems built for brands that want measurable results.
+      </p>
+      <div class="hero-actions fade-up d3">
+        <button class="btn-gold"    onclick="mailCTA()" data-i18n="cta.book">Work With Us</button>
+        <a      href="#services" class="btn-outline" data-i18n="hero.discover">See What We Do</a>
+      </div>
+    </div>
+
+    <div class="hero-scroll-cue">
+      <div class="scroll-line"></div>
+      <span class="label" data-i18n="hero.scroll">Scroll</span>
+    </div>
+  </section>
+
+  <!-- ==========================================
+       STATS
+  =========================================== -->
+  <section id="stats">
+    <div class="stats-grid">
+      <div class="stat-cell fade-up">
+        <!-- Economy icon -->
+        <svg class="stat-icon" width="48" height="48" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="24" cy="24" r="18"/>
+          <path d="M24 12v24"/>
+          <path d="M18 18.5c0-2.5 2.7-4.5 6-4.5s6 2 6 4.5-2.7 4.5-6 4.5-6 2-6 4.5 2.7 4.5 6 4.5"/>
+        </svg>
+        <div class="stat-index">01</div>
+        <div class="stat-num" data-target="600" data-suffix="B+">—</div>
+        <div class="stat-divider"></div>
+        <div class="stat-desc" data-i18n="stats.s1">Creator economy projected market size by 2027 (USD)</div>
+      </div>
+      <div class="stat-cell fade-up d1">
+        <!-- Trust/shield icon -->
+        <svg class="stat-icon" width="48" height="48" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M24 4L8 11v11c0 9.4 6.9 18.2 16 20.7C33.1 40.2 40 31.4 40 22V11L24 4z"/>
+          <polyline points="16,23 21,28 32,17"/>
+        </svg>
+        <div class="stat-index">02</div>
+        <div class="stat-num" data-target="92" data-suffix="%">—</div>
+        <div class="stat-divider"></div>
+        <div class="stat-desc" data-i18n="stats.s2">Of consumers trust creator recommendations over brand ads</div>
+      </div>
+      <div class="stat-cell fade-up d2">
+        <!-- Trending up icon -->
+        <svg class="stat-icon" width="48" height="48" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="4,36 14,22 22,28 34,14 42,20"/>
+          <polyline points="33,14 42,14 42,23"/>
+          <line x1="4" y1="44" x2="44" y2="44"/>
+        </svg>
+        <div class="stat-index">03</div>
+        <div class="stat-num" data-target="35" data-suffix="x" data-display="3.5x">—</div>
+        <div class="stat-divider"></div>
+        <div class="stat-desc" data-i18n="stats.s3">Higher ROI from influencer marketing vs. traditional digital ads</div>
+      </div>
+      <div class="stat-cell fade-up d3">
+        <!-- Globe/network icon -->
+        <svg class="stat-icon" width="48" height="48" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="24" cy="24" r="18"/>
+          <line x1="6" y1="24" x2="42" y2="24"/>
+          <line x1="6" y1="16" x2="42" y2="16"/>
+          <line x1="6" y1="32" x2="42" y2="32"/>
+          <path d="M24 6c-5 4.5-8 10.5-8 18s3 13.5 8 18"/>
+          <path d="M24 6c5 4.5 8 10.5 8 18s-3 13.5-8 18"/>
+        </svg>
+        <div class="stat-index">04</div>
+        <div class="stat-num" data-target="200" data-suffix="M+">—</div>
+        <div class="stat-divider"></div>
+        <div class="stat-desc" data-i18n="stats.s4">Active content creators operating globally right now</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================
+       SERVICES
+  =========================================== -->
+  <section id="services">
+    <div class="container safe-pad">
+      <div class="section-header fade-up">
+        <span class="label" data-i18n="svc.label">01 — What We Do</span>
+        <h2 data-i18n="svc.title">Three capabilities.<br>One outcome.</h2>
+      </div>
+      <div class="services-grid">
+        <div class="svc-card fade-up">
+          <div class="svc-inner">
+            <div class="svc-num">01</div>
+            <!-- Talent/influence icon -->
+            <svg class="svc-icon" width="64" height="64" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="26" cy="20" r="10"/>
+              <path d="M8 56c0-9.94 8.06-18 18-18"/>
+              <polygon points="50,34 53,42 61,43 55,49 57,57 50,53 43,57 45,49 39,43 47,42"/>
+            </svg>
+            <h3 class="svc-title" data-i18n="svc1.title">Influence<br>Management</h3>
+            <p class="svc-desc" data-i18n="svc1.desc">Strategic talent representation. We manage deals, campaigns and brand-creator relationships focused on measurable results.</p>
+            <ul class="svc-list">
+              <li data-i18n="svc1.li1">Strategic representation</li>
+              <li data-i18n="svc1.li2">Deal negotiation & management</li>
+              <li data-i18n="svc1.li3">Influencer marketing campaigns</li>
+              <li data-i18n="svc1.li4">Exclusivity & image rights</li>
+            </ul>
+          </div>
+        </div>
+        <div class="svc-card fade-up d1">
+          <div class="svc-inner">
+            <div class="svc-num">02</div>
+            <!-- Signal/broadcast icon -->
+            <svg class="svc-icon" width="64" height="64" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="32" cy="36" r="5"/>
+              <path d="M20 48c-3.5-3.5-5.5-8.3-5.5-12s2-8.5 5.5-12"/>
+              <path d="M44 48c3.5-3.5 5.5-8.3 5.5-12s-2-8.5-5.5-12"/>
+              <path d="M10 58c-7-7-11-16.5-11-22s4-15 11-22"/>
+              <path d="M54 58c7-7 11-16.5 11-22s-4-15-11-22"/>
+            </svg>
+            <h3 class="svc-title" data-i18n="svc2.title">Growth &amp;<br>Distribution</h3>
+            <p class="svc-desc" data-i18n="svc2.desc">We don't depend on the algorithm. We multiply it. Clipper network and short content system for massive, organic amplification.</p>
+            <ul class="svc-list">
+              <li data-i18n="svc2.li1">Viral creative direction</li>
+              <li data-i18n="svc2.li2">Network of 25+ active clippers</li>
+              <li data-i18n="svc2.li3">+80M views/month real reach</li>
+              <li data-i18n="svc2.li4">Sustained volume scaling</li>
+            </ul>
+          </div>
+        </div>
+        <div class="svc-card fade-up d2">
+          <div class="svc-inner">
+            <div class="svc-num">03</div>
+            <!-- Diamond/gem icon -->
+            <svg class="svc-icon" width="64" height="64" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="32,6 58,22 58,42 32,58 6,42 6,22"/>
+              <polygon points="32,6 46,22 32,28 18,22"/>
+              <line x1="6"  y1="22" x2="32" y2="28"/>
+              <line x1="58" y1="22" x2="32" y2="28"/>
+              <line x1="32" y1="28" x2="32" y2="58"/>
+            </svg>
+            <h3 class="svc-title" data-i18n="svc3.title">IP &amp; Product<br>Development</h3>
+            <p class="svc-desc" data-i18n="svc3.desc">We turn audiences into tangible businesses. Co-creating brands and products alongside creators with real reach and credibility.</p>
+            <ul class="svc-list">
+              <li data-i18n="svc3.li1">Creator-Led Brands</li>
+              <li data-i18n="svc3.li2">Brand co-creation</li>
+              <li data-i18n="svc3.li3">Drops &amp; Info-products</li>
+              <li data-i18n="svc3.li4">Licensing &amp; revenue share</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================
+       PROCESS
+  =========================================== -->
+  <section id="process">
+    <div class="container safe-pad">
+      <div class="section-header fade-up">
+        <span class="label" data-i18n="proc.label">02 — How We Work</span>
+        <h2 data-i18n="proc.title">Simple process.<br>Real results.</h2>
+      </div>
+      <div class="process-grid">
+        <div class="proc-step fade-up">
+          <div class="proc-big-num">01</div>
+          <!-- Target/strategy icon -->
+          <svg class="proc-icon" width="52" height="52" viewBox="0 0 52 52" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="26" cy="26" r="20"/>
+            <circle cx="26" cy="26" r="12"/>
+            <circle cx="26" cy="26" r="4"/>
+            <line x1="26" y1="6"  x2="26" y2="14"/>
+            <line x1="26" y1="38" x2="26" y2="46"/>
+            <line x1="6"  y1="26" x2="14" y2="26"/>
+            <line x1="38" y1="26" x2="46" y2="26"/>
+          </svg>
+          <p class="proc-tag"   data-i18n="proc.step1tag">Step One</p>
+          <h3 class="proc-title" data-i18n="proc.step1title">Strategy</h3>
+          <p data-i18n="proc.step1desc">We analyze your brand, audience and business goals. We define what type of content and which creators are exactly right for you. No guesswork.</p>
+        </div>
+        <div class="proc-step fade-up d1">
+          <div class="proc-big-num">02</div>
+          <!-- Lightning/execution icon -->
+          <svg class="proc-icon" width="52" height="52" viewBox="0 0 52 52" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="30,4 10,28 24,28 22,48 42,24 28,24"/>
+          </svg>
+          <p class="proc-tag"   data-i18n="proc.step2tag">Step Two</p>
+          <h3 class="proc-title" data-i18n="proc.step2title">Execution</h3>
+          <p data-i18n="proc.step2desc">We produce and distribute. We activate our network, generate the content and amplify it. No bureaucracy. Real-time data and constant adjustments.</p>
+        </div>
+        <div class="proc-step fade-up d2">
+          <div class="proc-big-num">03</div>
+          <!-- Mountain/scale icon -->
+          <svg class="proc-icon" width="52" height="52" viewBox="0 0 52 52" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="4,44 18,20 26,30 36,12 48,44"/>
+            <line x1="4" y1="44" x2="48" y2="44"/>
+            <polyline points="38,20 44,14 44,20"/>
+            <line x1="38" y1="14" x2="44" y2="14"/>
+          </svg>
+          <p class="proc-tag"   data-i18n="proc.step3tag">Step Three</p>
+          <h3 class="proc-title" data-i18n="proc.step3title">Scale</h3>
+          <p data-i18n="proc.step3desc">What works, we scale. We identify the best formats, the best creators, the best moments. And we grow from there using real data.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================
+       DIFFERENTIATOR
+  =========================================== -->
+  <section id="diff">
+    <div class="container safe-pad">
+      <div class="diff-grid">
+        <div class="diff-left fade-up">
+          <h2>
+            <span data-i18n="diff.h2a">We don't just work<br>with creators.</span>
+            <em data-i18n="diff.h2b">We build them<br>into businesses.</em>
+          </h2>
+        </div>
+        <div class="diff-right fade-up d1">
+          <p data-i18n="diff.p1">We were born from inside the creator ecosystem. We understand algorithms because we live them. That gives us an edge no traditional agency can replicate.</p>
+          <p data-i18n="diff.p2">We don't sell followers. We sell content that moves real people to make real decisions.</p>
+          <button class="btn-dark" onclick="mailCTA()" data-i18n="diff.cta">Let's Talk</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================
+       ABOUT
+  =========================================== -->
+  <section id="about">
+    <div class="container safe-pad">
+      <div class="about-grid">
+        <div class="about-left">
+          <span class="label fade-up" data-i18n="about.label">03 — About Studio 30</span>
+          <h2 class="fade-up d1" data-i18n="about.title">Born from the<br>ecosystem.</h2>
+          <p class="fade-up d2" data-i18n="about.p1">Studio 30 was born from Basic House, a space where content creators from different sectors of Peru came together. What started as a community became an agency with its own methodology.</p>
+          <p class="fade-up d2" data-i18n="about.p2">The name says it all: publish 30 pieces, learn which one works, scale that one. Consistency, trial-and-error and improvement based on real results.</p>
+          <div class="about-quote fade-up d3">
+            <p data-i18n="about.quote">"We made 30 pieces. Post 17 generated 200k organic reach. That's where we put the budget."</p>
+          </div>
+        </div>
+        <div class="about-right eco-list">
+          <div class="eco-item fade-up">
+            <!-- Person+star icon -->
+            <svg class="eco-icon" width="44" height="44" viewBox="0 0 44 44" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="16" cy="14" r="7"/>
+              <path d="M4 40c0-7.7 5.4-13 12-13"/>
+              <polygon points="33,20 35,26 41,26.5 36.5,31 38,37 33,34 28,37 29.5,31 25,26.5 31,26"/>
+            </svg>
+            <div>
+              <p class="eco-title" data-i18n="eco1.title">Influence · Talent</p>
+              <p class="eco-desc"  data-i18n="eco1.desc">We represent and develop creators, turning them into premium commercial assets for brands with real objectives.</p>
+            </div>
+          </div>
+          <div class="eco-item fade-up d1">
+            <!-- Share/network icon -->
+            <svg class="eco-icon" width="44" height="44" viewBox="0 0 44 44" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="34" cy="8"  r="5"/>
+              <circle cx="10" cy="22" r="5"/>
+              <circle cx="34" cy="36" r="5"/>
+              <line x1="15" y1="19.5" x2="29" y2="10.5"/>
+              <line x1="15" y1="24.5" x2="29" y2="33.5"/>
+            </svg>
+            <div>
+              <p class="eco-title" data-i18n="eco2.title">Distribution · Viralization</p>
+              <p class="eco-desc"  data-i18n="eco2.desc">Massive amplification through our network. Short content system generating +80M monthly views of organic reach.</p>
+            </div>
+          </div>
+          <div class="eco-item fade-up d2">
+            <!-- Package/product icon -->
+            <svg class="eco-icon" width="44" height="44" viewBox="0 0 44 44" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="40,13 22,22 4,13"/>
+              <path d="M4 13l18 9 18-9V31L22 40 4 31V13z"/>
+              <line x1="22" y1="22" x2="22" y2="40"/>
+              <line x1="13" y1="8.5" x2="31" y2="17.5"/>
+            </svg>
+            <div>
+              <p class="eco-title" data-i18n="eco3.title">Monetization · Products</p>
+              <p class="eco-desc"  data-i18n="eco3.desc">We transform audiences into tangible businesses. Creator-Led Brands, info-products and co-creations that generate shared revenue.</p>
+            </div>
+          </div>
+          <div class="eco-item fade-up d3">
+            <!-- Film/camera icon -->
+            <svg class="eco-icon" width="44" height="44" viewBox="0 0 44 44" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="11" width="28" height="22" rx="2"/>
+              <polyline points="31,17 41,12 41,32 31,27"/>
+              <circle cx="17" cy="22" r="5"/>
+            </svg>
+            <div>
+              <p class="eco-title" data-i18n="eco4.title">Content Studio</p>
+              <p class="eco-desc"  data-i18n="eco4.desc">Premium production designed for performance. Multi-channel formats optimized for virality, retention and real conversion.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================
+       WORK MODELS
+  =========================================== -->
+  <section id="models">
+    <div class="container safe-pad">
+      <div class="section-header fade-up">
+        <span class="label" data-i18n="mod.label">04 — How We Engage</span>
+        <h2 data-i18n="mod.title">Long-term relationships,<br>not transactions.</h2>
+      </div>
+      <div class="models-grid">
+        <div class="model-card fade-up">
+          <h3 class="model-name" data-i18n="mod1.name">Strategic Campaigns</h3>
+          <span class="model-sub">High-Impact · Short Term</span>
+          <p class="model-desc" data-i18n="mod1.desc">High-impact activations with clear objectives and result metrics. For brands that need to move a specific needle in a defined time frame.</p>
+        </div>
+        <div class="model-card fade-up d1">
+          <h3 class="model-name" data-i18n="mod2.name">Monthly Retainers</h3>
+          <span class="model-sub">Continuous · Optimized</span>
+          <p class="model-desc" data-i18n="mod2.desc">Continuous presence, constant optimization and sustained brand-talent relationship. The preferred model of our recurring clients.</p>
+        </div>
+        <div class="model-card fade-up d2">
+          <h3 class="model-name" data-i18n="mod3.name">Annual Partnerships</h3>
+          <span class="model-sub">Deep Integration · Strategic</span>
+          <p class="model-desc" data-i18n="mod3.desc">Deep integration with the brand's growth strategy. For companies that understand content is infrastructure, not an expense.</p>
+        </div>
+        <div class="model-card fade-up d3">
+          <h3 class="model-name" data-i18n="mod4.name">Revenue Share</h3>
+          <span class="model-sub">Partners · Not Vendors</span>
+          <p class="model-desc" data-i18n="mod4.desc">In product models: we are partners, not vendors. We align incentives. If your brand grows, we grow. That simple.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================
+       FINAL CTA
+  =========================================== -->
+  <section id="cta">
+    <div class="cta-radial"></div>
+    <div class="container safe-pad">
+      <div class="cta-inner">
+        <span class="label fade-up" data-i18n="cta.label">Ready to Convert?</span>
+        <h2 class="fade-up d1">
+          <span data-i18n="cta.h2a">Let's build something</span><br>
+          <em data-i18n="cta.h2b">that converts.</em>
+        </h2>
+        <p class="cta-subp fade-up d2" data-i18n="cta.sub">
+          If your brand wants to grow in the digital space with data-driven strategies and real execution, let's talk.
+        </p>
+        <div class="cta-btns fade-up d3">
+          <button class="btn-gold"    onclick="mailCTA()" data-i18n="cta.book">Schedule a Meeting</button>
+          <button class="btn-outline" onclick="mailCTA()" data-i18n="cta.msg">Send a Message</button>
+        </div>
+        <div class="cta-contacts fade-up d4">
+          <a href="mailto:hello@studio30.group" class="cnt-link">
+            <div class="cnt-dot"></div>
+            <span class="cnt-text">hello@studio30.group</span>
+          </a>
+          <a href="tel:+51976960262" class="cnt-link">
+            <div class="cnt-dot"></div>
+            <span class="cnt-text">+51 976 960 262</span>
+          </a>
+          <a href="https://www.instagram.com/studio30group/" target="_blank" rel="noopener" class="cnt-link">
+            <div class="cnt-dot"></div>
+            <span class="cnt-text">@studio30group</span>
+          </a>
+          <a href="https://www.linkedin.com/in/joshua-carty-5858671b0?utm_source=share_via&utm_content=profile&utm_medium=member_ios" target="_blank" rel="noopener" class="cnt-link">
+            <div class="cnt-dot"></div>
+            <span class="cnt-text">Joshua Carty · LinkedIn</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================
+       FOOTER
+  =========================================== -->
+  <footer>
+    <div class="container safe-pad">
+      <div class="footer-row">
+        <span class="footer-copy"  data-i18n="footer.copy">© 2025 Studio 30 · Lima, Perú · All rights reserved.</span>
+        <span class="footer-claim">Content That <span>Converts.</span></span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ==========================================
+       JAVASCRIPT
+  =========================================== -->
+  <script>
+    /* ── Translations ─────────────────────────────────────────── */
+    const TRANSLATIONS = {
+      en: {
+        'nav.services':'Services','nav.process':'How We Work','nav.about':'About','nav.cta':'Work With Us',
+        'hero.eyebrow':'Studio 30 · Lima, Perú',
+        'hero.h1a':'We turn','hero.h1b':'attention','hero.h1c':'into revenue.',
+        'hero.sub':'Influencer campaigns, content distribution & performance systems built for brands that want measurable results.',
+        'hero.discover':'See What We Do','hero.scroll':'Scroll',
+        'stats.s1':'Creator economy projected<br>market size by 2027 (USD)',
+        'stats.s2':'Of consumers trust creator<br>recommendations over brand ads',
+        'stats.s3':'Higher ROI from influencer<br>marketing vs. traditional digital ads',
+        'stats.s4':'Active content creators<br>operating globally right now',
+        'svc.label':'01 — What We Do','svc.title':'Three capabilities.<br>One outcome.',
+        'svc1.title':'Influence<br>Management','svc1.desc':'Strategic talent representation. We manage deals, campaigns and brand-creator relationships focused on measurable results.',
+        'svc1.li1':'Strategic representation','svc1.li2':'Deal negotiation & management','svc1.li3':'Influencer marketing campaigns','svc1.li4':'Exclusivity & image rights',
+        'svc2.title':'Growth &amp;<br>Distribution','svc2.desc':"We don't depend on the algorithm. We multiply it. Clipper network and short content system for massive, organic amplification.",
+        'svc2.li1':'Viral creative direction','svc2.li2':'Network of 25+ active clippers','svc2.li3':'+80M views/month real reach','svc2.li4':'Sustained volume scaling',
+        'svc3.title':'IP &amp; Product<br>Development','svc3.desc':'We turn audiences into tangible businesses. Co-creating brands and products alongside creators with real reach.',
+        'svc3.li1':'Creator-Led Brands','svc3.li2':'Brand co-creation','svc3.li3':'Drops & Info-products','svc3.li4':'Licensing & revenue share',
+        'proc.label':'02 — How We Work','proc.title':'Simple process.<br>Real results.',
+        'proc.step1tag':'Step One','proc.step1title':'Strategy','proc.step1desc':"We analyze your brand, audience and business goals. We define what type of content and which creators are exactly right for you. No guesswork.",
+        'proc.step2tag':'Step Two','proc.step2title':'Execution','proc.step2desc':"We produce and distribute. We activate our network, generate content and amplify it. No bureaucracy. Real-time data and constant adjustments.",
+        'proc.step3tag':'Step Three','proc.step3title':'Scale','proc.step3desc':"What works, we scale. We identify the best formats, the best creators, the best moments. And we grow from there using real data.",
+        'diff.h2a':"We don't just work<br>with creators.",'diff.h2b':'We build them<br>into businesses.',
+        'diff.p1':'We were born from inside the creator ecosystem. We understand algorithms because we live them. That gives us an edge no traditional agency can replicate.',
+        'diff.p2':"We don't sell followers. We sell content that moves real people to make real decisions.",'diff.cta':"Let's Talk",
+        'about.label':'03 — About Studio 30','about.title':'Born from the<br>ecosystem.',
+        'about.p1':'Studio 30 was born from Basic House, a space where content creators from different sectors of Peru came together. What started as a community became an agency with its own methodology.',
+        'about.p2':'The name says it all: publish 30 pieces, learn which one works, scale that one. Consistency, trial-and-error and improvement based on real results.',
+        'about.quote':'"We made 30 pieces. Post 17 generated 200k organic reach. That\'s where we put the budget."',
+        'eco1.title':'Influence · Talent','eco1.desc':'We represent and develop creators, turning them into premium commercial assets for brands with real objectives.',
+        'eco2.title':'Distribution · Viralization','eco2.desc':'Massive amplification through our network. Short content system generating +80M monthly views of organic reach.',
+        'eco3.title':'Monetization · Products','eco3.desc':'We transform audiences into tangible businesses. Creator-Led Brands, info-products and co-creations that generate shared revenue.',
+        'eco4.title':'Content Studio','eco4.desc':'Premium production designed for performance. Multi-channel formats optimized for virality, retention and real conversion.',
+        'mod.label':'04 — How We Engage','mod.title':'Long-term relationships,<br>not transactions.',
+        'mod1.name':'Strategic Campaigns','mod1.desc':'High-impact activations with clear objectives and result metrics. For brands that need to move a specific needle in a defined time frame.',
+        'mod2.name':'Monthly Retainers','mod2.desc':'Continuous presence, constant optimization and sustained brand-talent relationship. The preferred model of our recurring clients.',
+        'mod3.name':'Annual Partnerships','mod3.desc':"Deep integration with the brand's growth strategy. For companies that understand content is infrastructure, not an expense.",
+        'mod4.name':'Revenue Share','mod4.desc':'In product models: we are partners, not vendors. We align incentives. If your brand grows, we grow. That simple.',
+        'cta.label':'Ready to Convert?','cta.h2a':"Let's build something",'cta.h2b':'that converts.',
+        'cta.sub':"If your brand wants to grow in the digital space with data-driven strategies and real execution, let's talk.",
+        'cta.book':'Schedule a Meeting','cta.msg':'Send a Message',
+        'footer.copy':'© 2025 Studio 30 · Lima, Perú · All rights reserved.',
+      },
+      es: {
+        'nav.services':'Servicios','nav.process':'Cómo Trabajamos','nav.about':'Nosotros','nav.cta':'Trabajemos Juntos',
+        'hero.eyebrow':'Studio 30 · Lima, Perú',
+        'hero.h1a':'Convertimos','hero.h1b':'atención','hero.h1c':'en ingresos.',
+        'hero.sub':'Campañas de influencer marketing, distribución de contenido y sistemas de performance diseñados para marcas que quieren resultados medibles.',
+        'hero.discover':'Ver qué hacemos','hero.scroll':'Scroll',
+        'stats.s1':'Tamaño proyectado de la creator<br>economy para 2027 (USD)',
+        'stats.s2':'De consumidores confían en creadores<br>más que en publicidad de marca',
+        'stats.s3':'Mayor ROI del influencer marketing<br>vs. publicidad digital tradicional',
+        'stats.s4':'Creadores de contenido activos<br>operando en el mundo ahora mismo',
+        'svc.label':'01 — Qué Hacemos','svc.title':'Tres capacidades.<br>Un resultado.',
+        'svc1.title':'Gestión de<br>Influencers','svc1.desc':'Representación estratégica de talento. Gestionamos deals, campañas y relaciones marca-creador enfocadas en resultados medibles.',
+        'svc1.li1':'Representación estratégica','svc1.li2':'Negociación y gestión de deals','svc1.li3':'Campañas de influencer marketing','svc1.li4':'Exclusividad y uso de imagen',
+        'svc2.title':'Crecimiento &amp;<br>Distribución','svc2.desc':'No dependemos del algoritmo. Lo multiplicamos. Red de clippers y short content para amplificación masiva y orgánica.',
+        'svc2.li1':'Dirección creativa viral','svc2.li2':'Red de 25+ clippers activos','svc2.li3':'+80M views/mes de alcance real','svc2.li4':'Escala en volumen sostenido',
+        'svc3.title':'Desarrollo de<br>Productos e IP','svc3.desc':'Convertimos audiencias en negocios tangibles. Co-creamos marcas y productos junto a creadores con alcance y credibilidad real.',
+        'svc3.li1':'Creator-Led Brands','svc3.li2':'Co-creación de marcas','svc3.li3':'Drops &amp; Infoproductos','svc3.li4':'Licensing y revenue share',
+        'proc.label':'02 — Cómo Trabajamos','proc.title':'Proceso simple.<br>Resultados reales.',
+        'proc.step1tag':'Paso Uno','proc.step1title':'Estrategia','proc.step1desc':'Analizamos tu marca, público y objetivos de negocio. Definimos qué tipo de contenido y qué creadores son exactamente los correctos para ti.',
+        'proc.step2tag':'Paso Dos','proc.step2title':'Ejecución','proc.step2desc':'Producimos y distribuimos. Activamos nuestra red, generamos el contenido y lo amplificamos. Sin burocracia. Datos en tiempo real.',
+        'proc.step3tag':'Paso Tres','proc.step3title':'Escala','proc.step3desc':'Lo que funciona, lo escalamos. Identificamos los mejores formatos, los mejores creadores, los mejores momentos. Y crecemos desde ahí.',
+        'diff.h2a':'No solo trabajamos<br>con creadores.','diff.h2b':'Los convertimos<br>en negocios.',
+        'diff.p1':'Nacemos desde adentro del ecosistema de creadores. Entendemos los algoritmos porque los vivimos. Eso nos da una ventaja que ninguna agencia tradicional puede replicar.',
+        'diff.p2':'No vendemos seguidores. Vendemos contenido que mueve a gente real a tomar decisiones reales.','diff.cta':'Hablemos',
+        'about.label':'03 — Nosotros','about.title':'Nacimos dentro<br>del ecosistema.',
+        'about.p1':'Studio 30 nace de Basic House, un espacio donde se reunieron creadores de contenido de distintos sectores del Perú. Lo que empezó como comunidad se convirtió en una agencia con metodología propia.',
+        'about.p2':'El nombre lo dice todo: publica 30 piezas, aprende cuál funciona, escala esa. Consistencia, prueba-error y mejora basada en resultados reales.',
+        'about.quote':'"Hicimos 30 piezas. El post 17 generó 200k de alcance orgánico. Ahí pusimos el presupuesto."',
+        'eco1.title':'Influencia · Talento','eco1.desc':'Representamos y desarrollamos creadores convirtiéndolos en activos comerciales premium para marcas con objetivos reales.',
+        'eco2.title':'Distribución · Viralización','eco2.desc':'Amplificación masiva a través de nuestra red. Sistema de short content que genera +80M views mensuales de alcance orgánico.',
+        'eco3.title':'Monetización · Productos','eco3.desc':'Transformamos audiencias en negocios tangibles. Creator-Led Brands, infoproductos y co-creaciones que generan revenue compartido.',
+        'eco4.title':'Content Studio','eco4.desc':'Producción premium diseñada para performance. Formatos multicanal optimizados para viralidad, retención y conversión real.',
+        'mod.label':'04 — Cómo Colaboramos','mod.title':'Relaciones de largo plazo,<br>no transacciones.',
+        'mod1.name':'Campañas Estratégicas','mod1.desc':'Activaciones de alto impacto con objetivos claros y métricas de resultado. Para marcas que quieren mover una aguja concreta en tiempo definido.',
+        'mod2.name':'Retainers Mensuales','mod2.desc':'Presencia continua, optimización constante y relación marca-talento sostenida. El modelo preferido de nuestros clientes recurrentes.',
+        'mod3.name':'Partnerships Anuales','mod3.desc':'Integración profunda con la estrategia de crecimiento de la marca. Para empresas que entienden que el contenido es infraestructura, no gasto.',
+        'mod4.name':'Revenue Share','mod4.desc':'En modelos de producto: somos socios, no proveedores. Alineamos incentivos. Si tu marca crece, nosotros crecemos. Así de simple.',
+        'cta.label':'¿Listo para convertir?','cta.h2a':'Construyamos algo','cta.h2b':'que convierta.',
+        'cta.sub':'Si tu marca quiere crecer en el entorno digital con estrategias basadas en datos y ejecución real, hablemos.',
+        'cta.book':'Agendar Reunión','cta.msg':'Enviar Mensaje',
+        'footer.copy':'© 2025 Studio 30 · Lima, Perú · Todos los derechos reservados.',
+      }
+    };
+
+    let currentLang = 'en';
+
+    function setLang(lang) {
+      currentLang = lang;
+      document.documentElement.lang = lang;
+      ['btn-en','btn-es','mob-top-en','mob-top-es','mob-menu-en','mob-menu-es'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.classList.toggle('active', id.endsWith(lang));
+      });
+      const t = TRANSLATIONS[lang];
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (t[key] !== undefined) el.innerHTML = t[key];
+      });
+    }
+
+    /* ── mailto ───────────────────────────────────────────────── */
+    function mailCTA() {
+      const sub = currentLang === 'es' ? 'Quiero trabajar con Studio 30' : 'I want to work with Studio 30';
+      window.location.href = `mailto:hello@studio30.group?subject=${encodeURIComponent(sub)}`;
+    }
+
+    /* ── Navbar scroll ────────────────────────────────────────── */
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      navbar.classList.toggle('scrolled', window.scrollY > 50);
+    }, { passive: true });
+
+    /* ── Mobile menu ──────────────────────────────────────────── */
+    const hamburger = document.getElementById('hamburger');
+    const mobileNav = document.getElementById('mobileNav');
+    let menuOpen = false;
+    let scrollY = 0;
+
+    function toggleMenu() {
+      menuOpen = !menuOpen;
+      hamburger.classList.toggle('open', menuOpen);
+      mobileNav.classList.toggle('open', menuOpen);
+      if (menuOpen) {
+        // iOS Safari fix: save scroll pos, fix body in place
+        scrollY = window.scrollY;
+        document.body.classList.add('menu-open');
+        document.body.style.top = `-${scrollY}px`;
+      } else {
+        document.body.classList.remove('menu-open');
+        document.body.style.top = '';
+        window.scrollTo(0, scrollY);
+      }
+    }
+    function closeMenu() {
+      if (!menuOpen) return;
+      menuOpen = false;
+      hamburger.classList.remove('open');
+      mobileNav.classList.remove('open');
+      document.body.classList.remove('menu-open');
+      document.body.style.top = '';
+      window.scrollTo(0, scrollY);
+    }
+    hamburger.addEventListener('click', toggleMenu);
+    hamburger.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') toggleMenu(); });
+
+    /* ── Scroll-reveal ────────────────────────────────────────── */
+    const revealObs = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('vis'); });
+    }, { threshold: 0.06, rootMargin: '0px 0px -30px 0px' });
+    document.querySelectorAll('.fade-up').forEach(el => revealObs.observe(el));
+    /* also trigger gold bar on stat cells */
+    document.querySelectorAll('.stat-cell').forEach(el => revealObs.observe(el));
+
+    /* ── Animated counters ────────────────────────────────────── */
+    function animateCount(el) {
+      const rawTarget = parseInt(el.dataset.target);
+      const suffix    = el.dataset.suffix || '';
+      const display   = el.dataset.display || null;   /* override for "3.5x" */
+      const dur = 1600;
+      const start = performance.now();
+
+      const update = now => {
+        const t      = Math.min((now - start) / dur, 1);
+        const eased  = 1 - Math.pow(1 - t, 3);
+        if (t < 1) {
+          el.innerHTML = `<span>${Math.floor(eased * rawTarget)}</span>${suffix}`;
+          requestAnimationFrame(update);
+        } else {
+          el.innerHTML = display
+            ? `<span>${display}</span>`
+            : `<span>${rawTarget}</span>${suffix}`;
+        }
+      };
+      requestAnimationFrame(update);
+    }
+
+    const statsObs = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (!e.isIntersecting) return;
+        e.target.querySelectorAll('.stat-num[data-target]').forEach((el, i) => {
+          setTimeout(() => animateCount(el), i * 140);
+        });
+        statsObs.unobserve(e.target);
+      });
+    }, { threshold: 0.25 });
+
+    const statsSection = document.getElementById('stats');
+    if (statsSection) statsObs.observe(statsSection);
+  </script>
+
+</body>
+</html>
